@@ -16,7 +16,7 @@ function PostForm({ onAddPost }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', width: '300px', gap: '10px' }}>
       <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Naslov objave" required />
       <textarea value={content} onChange={(e) => setContent(e.target.value)} placeholder="Vsebina objave" required />
       <input type="text" value={location} onChange={(e) => setLocation(e.target.value)} placeholder="Lokacija" />

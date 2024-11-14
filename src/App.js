@@ -40,9 +40,14 @@ function App() {
 
   return (
     <div>
-      <h1>Oglasna Deska</h1>
-      <PostForm onAddPost={addPost} />
-      <PostList posts={posts} onDeletePost={deletePost} />
+      <div style={{display: "flex", justifyContent:"center"}}>
+        <h1>Oglasna Deska</h1>        
+      </div>
+
+      <div style={{display: "flex", justifyContent:"center"}}>
+          <PostForm onAddPost={addPost} />
+          <PostList posts={posts} onDeletePost={deletePost} />
+      </div>
     </div>
   );
 }

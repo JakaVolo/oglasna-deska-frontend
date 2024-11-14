@@ -2,7 +2,7 @@ import React from "react";
 
 function PostList({ posts, onDeletePost }) {
   return (
-    <div>
+    <div >
       {posts.map((post) => (
         <div key={post.post_id}>
           <h3>{post.title}</h3>
