@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/Login.css";
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -37,6 +39,7 @@ function Register() {
       setMessage(response.data.message);
       if (response.data.status === "success") {
         console.log("Registracija uspešna:", response.data.user);
+        navigate("/login");
       } else {
         setError(true);
       }
@@ -52,24 +55,9 @@ function Register() {
   };
   
 
-  //  try {
-    //  const response = await axios.post("http://localhost/oglasna-deska-backend/register.php", formData, {
-      //  withCredentials: true, // Za podporo sej
-//      });
-  //    setMessage(response.data.message);
-   //   if (response.data.status === "success") {
-     //   console.log("Registracija uspešna:", response.data.user);
-     // } else {
-      //  setError(true);
-     // }
-   // } catch (error) {
-    //  console.error("Napaka pri registraciji:", error);
-     // setMessage("Prišlo je do napake. Poskusite znova.");
-    //  setError(true);
-   // }
- // };
-
   return (
+    
+    <div style={{paddingTop:"5%"}}>
     <div className="login-container">
       <h1>Registracija</h1>
       <form onSubmit={handleSubmit}>
@@ -122,6 +110,7 @@ function Register() {
         </button>
       </form>
       {message && <p className={error ? "error-message" : "success-message"}>{message}</p>}
+    </div>
     </div>
   );
 }
