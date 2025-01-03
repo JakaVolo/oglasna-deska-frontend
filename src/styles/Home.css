@@ -1,0 +1,54 @@
+.header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-link {
+  position: absolute;
+  right: 0;
+  top: 90%;
+  transform: translateY(-50%);
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+.Home-link {
+  position: absolute;
+  right: 0;
+  top: 55%;
+  transform: translateY(-50%);
+  color: rgb(255, 255, 255);
+  text-decoration: none;
+}
+.Add-link {
+  position: absolute;
+  right: 0;
+  top: 20%;
+  transform: translateY(-50%);
+  color:rgb(255, 255, 255);
+  text-decoration: none;
+}
+
+
+.categories {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .category-button {
+    margin: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+  }
+  
+  .posts {
+    margin-top: 20px;
+  }
+  
+  .post {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+  }
+  
