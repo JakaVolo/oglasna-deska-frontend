@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "../styles/Login.css";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function Register() {
   const navigate = useNavigate();
@@ -110,6 +111,9 @@ function Register() {
         </button>
       </form>
       {message && <p className={error ? "error-message" : "success-message"}>{message}</p>}
+      <p>
+        Že imate račun? <Link to="/login">Prijavite se tukaj</Link>
+      </p>
     </div>
     </div>
   );

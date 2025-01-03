@@ -1,30 +1,102 @@
-import React from "react";
-import PostForm from "./PostForm";
+import React, { useState } from "react";
+import axios from "axios";
+import "../styles/Login.css";
 
-function DodajOglas({ userId }) {
-  const addPost = async (post) => {
+function DodajOglas() {
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    location: "",
+    category_id: "",
+  });
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setMessage("");
+    setError(false);
+
     try {
-      const response = await fetch("http://localhost/oglasna-deska-backend/add_post.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...post, user_id: userId }),
-      });
-      const data = await response.json();
-      if (data.status === "success") {
-        alert("Oglas uspešno dodan!");
+      const response = await axios.post(
+        "http://localhost/oglasna-deska-backend/add_post.php",
+        formData,
+        { withCredentials: true }
+      );
+      setMessage(response.data.message);
+      if (response.data.status === "success") {
+        console.log("Oglas uspešno dodan:", response.data.post);
       } else {
-        alert("Napaka pri dodajanju oglasa: " + data.message);
+        setError(true);
       }
     } catch (error) {
       console.error("Napaka pri dodajanju oglasa:", error);
-      alert("Prišlo je do napake pri dodajanju oglasa.");
+      setMessage("Prišlo je do napake. Poskusite znova.");
+      setError(true);
     }
   };
 
   return (
-    <div style={{ backgroundColor: "black", color: "white", minHeight: "100vh", padding: "20px" }}>
-      <h1 style={{ textAlign: "center", marginBottom: "20px" }}>Dodaj Oglas</h1>
-      <PostForm onAddPost={addPost} />
+    <div style={{ paddingTop: "5%" }}>
+      <div className="login-container">
+        <h1>Dodaj Oglas</h1>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="title">Naslov:</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="content">Vsebina:</label>
+            <textarea
+              id="content"
+              name="content"
+              value={formData.content}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="location">Lokacija:</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={formData.location}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="category_id">Kategorija:</label>
+            <input
+              type="number"
+              id="category_id"
+              name="category_id"
+              value={formData.category_id}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <button type="submit" className="login-button">
+            Dodaj Oglas
+          </button>
+        </form>
+        {message && (
+          <p className={error ? "error-message" : "success-message"}>{message}</p>
+        )}
+      </div>
     </div>
   );
 }

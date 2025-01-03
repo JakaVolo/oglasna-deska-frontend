@@ -4,6 +4,7 @@ import axios from "axios";
 import "./App.css";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import DodajOglas from "./Pages/DodajOglas";
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -39,6 +40,7 @@ function App() {
       {/* Prijavna stran */}
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/oglas" element={<DodajOglas />} />
 
       {/* Glavna stran */}
       <Route
@@ -50,7 +52,7 @@ function App() {
               <Link to="/login" className="login-link">
                 Login
               </Link>
-              <Link to="/register" className="objava-link">
+              <Link to="/oglas" className="objava-link">
                 Nova objava
               </Link>
             </div>
