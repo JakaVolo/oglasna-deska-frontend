@@ -7,7 +7,15 @@
 .login-link {
   position: absolute;
   right: 0;
-  top: 50%;
+  top: 70%;
+  transform: translateY(-50%);
+  color: pink;
+  text-decoration: none;
+}
+.objava-link {
+  position: absolute;
+  right: 0;
+  top: 30%;
   transform: translateY(-50%);
   color: pink;
   text-decoration: none;
