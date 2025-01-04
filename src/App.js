@@ -10,6 +10,8 @@ function App() {
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showModal, setShowModal] = useState(false); // Upravljanje prikaza modala
+  const [newCategory, setNewCategory] = useState(""); // Shrani ime nove kategorije
 
   const fetchPosts = async () => {
     try {
@@ -30,6 +32,32 @@ function App() {
   useEffect(() => {
     fetchPosts();
   }, []);
+
+  const addCategory = async () => {
+    if (!newCategory.trim()) {
+      alert("Vnesite ime kategorije.");
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        "http://localhost/oglasna-deska-backend/add_category.php",
+        { category_name: newCategory }
+      );
+
+      if (response.data.status === "success") {
+        alert("Kategorija je bila uspešno dodana.");
+        setNewCategory(""); // Počisti polje
+        setShowModal(false); // Zapri modal
+        fetchPosts(); // Osveži objave in kategorije
+      } else {
+        alert("Napaka pri dodajanju kategorije: " + response.data.message);
+      }
+    } catch (error) {
+      console.error("Napaka pri dodajanju kategorije:", error);
+      alert("Napaka pri dodajanju kategorije.");
+    }
+  };
   const deletePost = async (postId) => {
     try {
       const userId = localStorage.getItem("user_id"); // Pridobi ID uporabnika
@@ -51,12 +79,12 @@ function App() {
       alert("Napaka pri brisanju objave.");
     }
   };
-  
   const confirmDelete = (postId) => {
     if (window.confirm("Ali ste prepričani, da želite izbrisati to objavo?")) {
       deletePost(postId);
     }
   };
+
   const filteredPosts = selectedCategory
     ? posts.filter((post) => post.category_name === selectedCategory)
     : posts;
@@ -106,6 +134,14 @@ function App() {
                   {category}
                 </button>
               ))}
+              {localStorage.getItem("role") === "moderator" && (
+                <button
+                  className="dodaj-button"
+                  onClick={() => setShowModal(true)} // Prikaži modal
+                >
+                  Dodaj kategorijo
+                </button>
+              )}
             </div>
 
             <div className="posts">
@@ -125,24 +161,40 @@ function App() {
                       <strong>Avtor:</strong> {post.username}
                     </p>
                     <hr />
-                    
-                    {(localStorage.getItem("role") === "moderator" || 
-                    localStorage.getItem("user_id") === post.user_id.toString()) && (
-                    <button
-                      type="submit"
-                      className="brisi-button"
-                      onClick={() => confirmDelete(post.post_id)}
-                    >
-                      Izbriši
-                    </button>
-                  )}
-
+                    {(localStorage.getItem("role") === "moderator" ||
+                      localStorage.getItem("user_id") ===
+                        post.user_id.toString()) && (
+                      <button
+                        type="submit"
+                        className="brisi-button"
+                        onClick={() => confirmDelete(post.post_id)}
+                      >
+                        Izbriši
+                      </button>
+                    )}
                   </div>
                 ))
               ) : (
                 <p>Trenutno ni objav.</p>
               )}
             </div>
+
+            {/* Modalno okno za dodajanje kategorije */}
+            {showModal && (
+              <div className="modal">
+                <div className="modal-content">
+                  <h2>Dodaj novo kategorijo</h2>
+                  <input
+                    type="text"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                    placeholder="Ime kategorije"
+                  />
+                  <button onClick={addCategory}>Dodaj</button>
+                  <button onClick={() => setShowModal(false)}>Prekliči</button>
+                </div>
+              </div>
+            )}
           </div>
         }
       />
