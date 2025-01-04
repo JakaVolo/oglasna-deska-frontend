@@ -22,14 +22,22 @@ function Login() {
     e.preventDefault();
     setMessage(""); // Reset message
     setError(false);
-
+  
     try {
-      const response = await axios.post("http://localhost/oglasna-deska-backend/login.php", formData, {
-        withCredentials: true, // Za podporo sej
-      });
+      const response = await axios.post(
+        "http://localhost/oglasna-deska-backend/login.php",
+        formData,
+        { withCredentials: true }
+      );
       setMessage(response.data.message);
+  
       if (response.data.status === "success") {
-        console.log(response.data.user); // Podatki o uporabniku
+        const { user_id, role } = response.data.user;
+        
+        // Shranimo podatke v localStorage
+        localStorage.setItem("user_id", user_id);
+        localStorage.setItem("role", role);
+        
         navigate("/"); // Preusmeritev na domačo stran
       } else {
         setError(true);
@@ -40,6 +48,7 @@ function Login() {
       setError(true);
     }
   };
+  
 
   return (
     <div style={{ paddingTop: "5%" }}>

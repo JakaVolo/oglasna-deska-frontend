@@ -32,10 +32,14 @@ function App() {
   }, []);
   const deletePost = async (postId) => {
     try {
+      const userId = localStorage.getItem("user_id"); // Pridobi ID uporabnika
+      const role = localStorage.getItem("role"); // Pridobi vlogo uporabnika (npr. 'admin' ali 'user')
+  
       const response = await axios.post(
         "http://localhost/oglasna-deska-backend/delete_post.php",
-        { post_id: postId }
+        { post_id: postId, user_id: userId, role: role }
       );
+  
       if (response.data.status === "success") {
         alert(response.data.message);
         fetchPosts(); // Osveži objave
@@ -48,6 +52,11 @@ function App() {
     }
   };
   
+  const confirmDelete = (postId) => {
+    if (window.confirm("Ali ste prepričani, da želite izbrisati to objavo?")) {
+      deletePost(postId);
+    }
+  };
   const filteredPosts = selectedCategory
     ? posts.filter((post) => post.category_name === selectedCategory)
     : posts;
@@ -116,13 +125,17 @@ function App() {
                       <strong>Avtor:</strong> {post.username}
                     </p>
                     <hr />
+                    
+                    {(localStorage.getItem("role") === "moderator" || 
+                    localStorage.getItem("user_id") === post.user_id.toString()) && (
                     <button
                       type="submit"
                       className="brisi-button"
-                      onClick={() => deletePost(post.post_id)}
+                      onClick={() => confirmDelete(post.post_id)}
                     >
                       Izbriši
                     </button>
+                  )}
 
                   </div>
                 ))
