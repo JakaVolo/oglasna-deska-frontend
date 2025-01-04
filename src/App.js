@@ -13,6 +13,7 @@ function App() {
   const [showModal, setShowModal] = useState(false); // Upravljanje prikaza modala
   const [newCategory, setNewCategory] = useState(""); // Shrani ime nove kategorije
 
+  
   const fetchPosts = async () => {
     try {
       const response = await axios.get(
@@ -84,7 +85,7 @@ function App() {
       deletePost(postId);
     }
   };
-
+  
   const filteredPosts = selectedCategory
     ? posts.filter((post) => post.category_name === selectedCategory)
     : posts;

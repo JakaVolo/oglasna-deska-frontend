@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Login.css";
-import { Link, useNavigate } from "react-router-dom"; 
+import { Link, useNavigate } from "react-router-dom";
 
 function DodajOglas() {
   const [formData, setFormData] = useState({
     title: "",
     content: "",
     location: "",
-    category_id: "",
+    category_id: "", // ID izbrane kategorije
   });
   const [categories, setCategories] = useState([]); // Kategorije
   const [message, setMessage] = useState("");
@@ -104,14 +104,20 @@ function DodajOglas() {
           </div>
           <div className="form-group">
             <label htmlFor="category_id">Kategorija:</label>
-            <input
-              type="number"
+            <select
               id="category_id"
               name="category_id"
               value={formData.category_id}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="">Izberite kategorijo</option>
+              {categories.map((category) => (
+                <option key={category.category_id} value={category.category_id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
           <button type="submit" className="login-button">
             Dodaj Oglas
@@ -121,7 +127,7 @@ function DodajOglas() {
           <p className={error ? "error-message" : "success-message"}>{message}</p>
         )}
         <p>
-           <Link to="/">Domov</Link>
+          <Link to="/">Domov</Link>
         </p>
       </div>
     </div>
