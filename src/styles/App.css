@@ -1,3 +1,25 @@
+.header {
+  position: relative;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-link {
+  position: absolute;
+  right: 0;
+  top: 70%;
+  transform: translateY(-50%);
+  color: pink;
+  text-decoration: none;
+}
+.objava-link {
+  position: absolute;
+  right: 0;
+  top: 30%;
+  transform: translateY(-50%);
+  color: pink;
+  text-decoration: none;
+}
 
 
 body {
@@ -41,7 +63,7 @@ body {
 
 .post {
   border: 1px solid #ddd;
-  color: rgb(85, 16, 149);  /* You can keep this color or adjust it */
+  color: rgb(97, 20, 169);  /* You can keep this color or adjust it */
   padding: 16px;
   border-radius: 5px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -61,4 +83,15 @@ body {
   margin-top: 12px;
   border: 0;
   border-top: 1px solid #ddd;
+}
+
+.brisi-button{
+  background-color: #462222;
+  color: rgb(216, 14, 14);
+  border: 1px solid rgb(205, 18, 18);
+  border-radius: 5px;
+  padding: 5px 12px;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: background-color 0.3s;
 }

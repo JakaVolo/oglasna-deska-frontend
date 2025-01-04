@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import axios from "axios";
-import "./App.css";
+import "./styles/App.css";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import DodajOglas from "./Pages/DodajOglas";
@@ -30,7 +30,24 @@ function App() {
   useEffect(() => {
     fetchPosts();
   }, []);
-
+  const deletePost = async (postId) => {
+    try {
+      const response = await axios.post(
+        "http://localhost/oglasna-deska-backend/delete_post.php",
+        { post_id: postId }
+      );
+      if (response.data.status === "success") {
+        alert(response.data.message);
+        fetchPosts(); // Osveži objave
+      } else {
+        alert(response.data.message);
+      }
+    } catch (error) {
+      console.error("Napaka pri brisanju objave:", error);
+      alert("Napaka pri brisanju objave.");
+    }
+  };
+  
   const filteredPosts = selectedCategory
     ? posts.filter((post) => post.category_name === selectedCategory)
     : posts;
@@ -99,6 +116,14 @@ function App() {
                       <strong>Avtor:</strong> {post.username}
                     </p>
                     <hr />
+                    <button
+                      type="submit"
+                      className="brisi-button"
+                      onClick={() => deletePost(post.post_id)}
+                    >
+                      Izbriši
+                    </button>
+
                   </div>
                 ))
               ) : (

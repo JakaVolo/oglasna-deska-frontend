@@ -104,22 +104,14 @@ function DodajOglas() {
           </div>
           <div className="form-group">
             <label htmlFor="category_id">Kategorija:</label>
-            <select
+            <input
+              type="number"
               id="category_id"
               name="category_id"
               value={formData.category_id}
               onChange={handleChange}
               required
-            >
-              <option value="" disabled>
-                Izberite kategorijo
-              </option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+            />
           </div>
           <button type="submit" className="login-button">
             Dodaj Oglas
