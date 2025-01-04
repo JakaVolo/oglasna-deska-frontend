@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/Login.css";
+import { Link, useNavigate } from "react-router-dom"; 
 
 function DodajOglas() {
   const [formData, setFormData] = useState({
@@ -9,8 +10,30 @@ function DodajOglas() {
     location: "",
     category_id: "",
   });
+  const [categories, setCategories] = useState([]); // Kategorije
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
+  const navigate = useNavigate();
+
+  // Pridobivanje kategorij ob nalaganju
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost/oglasna-deska-backend/get_categories.php"
+        );
+        if (response.data.status === "success") {
+          setCategories(response.data.categories); // Nastavi kategorije
+        } else {
+          console.error("Napaka pri pridobivanju kategorij:", response.data.message);
+        }
+      } catch (error) {
+        console.error("Napaka pri pridobivanju kategorij:", error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -31,6 +54,7 @@ function DodajOglas() {
       setMessage(response.data.message);
       if (response.data.status === "success") {
         console.log("Oglas uspešno dodan:", response.data.post);
+        navigate("/");
       } else {
         setError(true);
       }
@@ -80,14 +104,22 @@ function DodajOglas() {
           </div>
           <div className="form-group">
             <label htmlFor="category_id">Kategorija:</label>
-            <input
-              type="number"
+            <select
               id="category_id"
               name="category_id"
               value={formData.category_id}
               onChange={handleChange}
               required
-            />
+            >
+              <option value="" disabled>
+                Izberite kategorijo
+              </option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
+            </select>
           </div>
           <button type="submit" className="login-button">
             Dodaj Oglas
@@ -96,6 +128,9 @@ function DodajOglas() {
         {message && (
           <p className={error ? "error-message" : "success-message"}>{message}</p>
         )}
+        <p>
+           <Link to="/">Domov</Link>
+        </p>
       </div>
     </div>
   );

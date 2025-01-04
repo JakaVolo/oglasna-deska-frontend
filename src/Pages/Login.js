@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/Login.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Dodaj useNavigate
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -11,6 +11,7 @@ function Login() {
   });
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
+  const navigate = useNavigate(); // Inicializiraj useNavigate
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -28,8 +29,8 @@ function Login() {
       });
       setMessage(response.data.message);
       if (response.data.status === "success") {
-        // Shrani podatke uporabnika, preusmeri itd.
-        console.log(response.data.user);
+        console.log(response.data.user); // Podatki o uporabniku
+        navigate("/"); // Preusmeritev na domačo stran
       } else {
         setError(true);
       }
@@ -41,53 +42,54 @@ function Login() {
   };
 
   return (
-    <div style={{paddingTop:"5%"}}>
-        
-        <div className="login-container">
+    <div style={{ paddingTop: "5%" }}>
+      <div className="login-container">
         <h1>Prijava</h1>
         <form onSubmit={handleSubmit}>
-            <div className="form-group">
+          <div className="form-group">
             <label htmlFor="username">Uporabniško ime:</label>
             <input
-                type="text"
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
             />
-            </div>
-            <div className="form-group">
+          </div>
+          <div className="form-group">
             <label htmlFor="email">E-pošta:</label>
             <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
-            </div>
-            <div className="form-group">
+          </div>
+          <div className="form-group">
             <label htmlFor="password">Geslo:</label>
             <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
             />
-            </div>
-            <button type="submit" className="login-button">
+          </div>
+          <button type="submit" className="login-button">
             Prijava
-            </button>
+          </button>
         </form>
         {message && <p className={error ? "error-message" : "success-message"}>{message}</p>}
         <p>
-        Nimate računa? <Link to="/register">Registrirajte se tukaj</Link>
-      </p>
-        </div>
+          Nimate računa? <Link to="/register">Registrirajte se tukaj</Link>
+          
+        </p>
+        <p><Link to="/">Domov</Link></p>
+      </div>
     </div>
   );
 }
