@@ -6,12 +6,13 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import DodajOglas from "./Pages/DodajOglas";
 
+
 function App() {
   const [posts, setPosts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [showModal, setShowModal] = useState(false); // Upravljanje prikaza modala
-  const [newCategory, setNewCategory] = useState(""); // Shrani ime nove kategorije
+  const [showModal, setShowModal] = useState(false);
+  const [newCategory, setNewCategory] = useState(""); 
 
   
   const fetchPosts = async () => {
@@ -48,9 +49,9 @@ function App() {
 
       if (response.data.status === "success") {
         alert("Kategorija je bila uspešno dodana.");
-        setNewCategory(""); // Počisti polje
-        setShowModal(false); // Zapri modal
-        fetchPosts(); // Osveži objave in kategorije
+        setNewCategory(""); 
+        setShowModal(false); 
+        fetchPosts(); 
       } else {
         alert("Napaka pri dodajanju kategorije: " + response.data.message);
       }
@@ -61,8 +62,8 @@ function App() {
   };
   const deletePost = async (postId) => {
     try {
-      const userId = localStorage.getItem("user_id"); // Pridobi ID uporabnika
-      const role = localStorage.getItem("role"); // Pridobi vlogo uporabnika (npr. 'admin' ali 'user')
+      const userId = localStorage.getItem("user_id"); 
+      const role = localStorage.getItem("role"); 
   
       const response = await axios.post(
         "http://localhost/oglasna-deska-backend/delete_post.php",
@@ -83,6 +84,7 @@ function App() {
   const confirmDelete = (postId) => {
     if (window.confirm("Ali ste prepričani, da želite izbrisati to objavo?")) {
       deletePost(postId);
+      fetchPosts();
     }
   };
   
@@ -92,20 +94,20 @@ function App() {
 
   return (
     <Routes>
-      {/* Prijavna stran */}
+      
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/oglas" element={<DodajOglas />} />
 
-      {/* Glavna stran */}
+      
       <Route
         path="/"
         element={
           <div className="container">
             <div className="header">
-              <h1 style={{ fontSize: "300%" }}>Objave</h1>
+              <h1 style={{ fontSize: "300%" }}>OGLASNA DESKA</h1>
               <Link to="/login" className="login-link">
-                Login
+                Prijava
               </Link>
               <Link to="/oglas" className="objava-link">
                 Nova objava
@@ -138,7 +140,7 @@ function App() {
               {localStorage.getItem("role") === "moderator" && (
                 <button
                   className="dodaj-button"
-                  onClick={() => setShowModal(true)} // Prikaži modal
+                  onClick={() => setShowModal(true)}
                 >
                   Dodaj kategorijo
                 </button>
@@ -180,7 +182,7 @@ function App() {
               )}
             </div>
 
-            {/* Modalno okno za dodajanje kategorije */}
+            
             {showModal && (
               <div className="modal">
                 <div className="modal-content">

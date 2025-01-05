@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "../styles/Login.css";
-import { Link, useNavigate } from "react-router-dom"; // Dodaj useNavigate
+import { Link, useNavigate } from "react-router-dom"; 
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ function Login() {
   });
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
-  const navigate = useNavigate(); // Inicializiraj useNavigate
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,7 +20,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(""); // Reset message
+    setMessage(""); 
     setError(false);
   
     try {
@@ -34,11 +34,11 @@ function Login() {
       if (response.data.status === "success") {
         const { user_id, role } = response.data.user;
         
-        // Shranimo podatke v localStorage
+        
         localStorage.setItem("user_id", user_id);
         localStorage.setItem("role", role);
         
-        navigate("/"); // Preusmeritev na domačo stran
+        navigate("/");
       } else {
         setError(true);
       }

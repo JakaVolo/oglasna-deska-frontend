@@ -22,7 +22,7 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setMessage(""); // Reset message
+    setMessage(""); 
     setError(false);
   
     if (formData.password !== formData.confirmPassword) {
@@ -35,7 +35,7 @@ function Register() {
       const response = await axios.post(
         "http://localhost/oglasna-deska-backend/register.php",
         formData,
-        { withCredentials: true } // Za podporo sej
+        { withCredentials: true } 
       );
       setMessage(response.data.message);
       if (response.data.status === "success") {
